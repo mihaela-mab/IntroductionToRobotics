@@ -8,3 +8,15 @@ d. wires
 e. Arduino 
 f. Connector cable 
 I used the pins number 11, 10 and 9 (in the setup function, they are defined as output), respectively A2, A1, A0 (in the setup function, they are defined as input). In the loop I repeatedly read the pot values and map them. After calling the setColor function, the led values are given as output.
+
+knockDetectorBuzzer
+
+This project required the following hardware components:
+a. 1 passive buzzer for knock detection
+b. 1 active buzzer for sound
+c. 1 pushbutton
+d. 2 resistors (100ohm), one for each buzzer
+e. Wires
+f. Arduino
+g. Connector cable
+The passive buzzer detects a knock and, after 5 seconds (time is measured with millis() function), the actvive one emits a sound with tone of 2500. The sound stops after pushing the button.
