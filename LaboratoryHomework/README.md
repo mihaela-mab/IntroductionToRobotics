@@ -20,3 +20,17 @@ e. Wires <br/>
 f. Arduino <br/>
 g. Connector cable <br/>
 The passive buzzer detects a knock and, after 5 seconds (time is measured with millis() function), the actvive one emits a sound with tone  of 2500. The sound stops after pushing the button.
+
+digitControlWithJoystick
+
+Hardware components needed: <br/>
+a. 1 * 4 digit 7-segment display<br/>
+b. 1 * joystick<br/>
+c. Resistors<br/>
+d. Wires<br/>
+e. Arduino<br/>
+f. Connector cable<br/>
+The joystick controls each digit as it follows:<br/>
+  -On the X-axis, we represent which digit we select by lightning up the decimal point;<br/>
+  -On the Y-axis, we modify the value of the digit, taking in consideration the last digit that was represented on that segment;<br/>
+  -By pressing the button, we lock/unlock a digit.
