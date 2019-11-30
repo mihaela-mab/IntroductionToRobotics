@@ -34,3 +34,19 @@ The joystick controls each digit as it follows:<br/>
   -On the X-axis, we represent which digit we select by lightning up the decimal point;<br/>
   -On the Y-axis, we modify the value of the digit, taking in consideration the last digit that was represented on that segment;<br/>
   -By pressing the button, we lock/unlock a digit.
+
+gameMenu
+
+Required items:<br/>
+a. 1 * LCD<br/>
+b. 1 * joystick<br/>
+c. 220 Ohm resistor <br/>
+d. Wires<br/>
+e. Arduino<br/>
+f. Connector cable<br/>
+g. Potentiometer<br/>
+Using a josystick, in the main menu, you can scroll through the following  options (">"), by moving on the X-axis; enterig a category is done by pressing the button:<br/>
+1. Play, which shows: number of lives (3), score (3 * level), and an exit option (by pressing the button). Each 5 seconds, the level gets incremented by 1. After 10 seconds, the game ends, displaying a suggestive message.<br/>
+2. Highscore: Displays the highest score achieved. Default is 0. It gets updated after each play.<br/>
+3. Settings, in which you can set the starting level.<br/>
+You can find a visual representation at this <a href = "https://youtu.be/hOX1ZC8e0Lw">link</a>.
