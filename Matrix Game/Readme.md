@@ -50,7 +50,7 @@ Level 3:<br/>
 -	3 ghosts – fast speed<br/>
 -	Score = Score (level 2) + 6 * 3 + one possible life<br/>
 -	Maze complexity: difficult<br/>
-
+<br/>
 If a level is not completed, the points added to the current score is 0.<br/>
 At the end of the game, the final score is calculated as score(level) + level * number of lives, where level can be 1, 2 or 3.
 
