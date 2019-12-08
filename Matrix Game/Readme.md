@@ -1,6 +1,6 @@
 Pacman
 
-Game description: 
+Game description: <br/>
 Pacman is a maze arcade game, which has its beginnings in 1980. Pacman, represented by a continuous single dot, navigates through the enclosed maze, filled with pac-dots (fruits) that need to be collected in order to gain points. At any time, one or more ghosts (represented by blinking dots) chase Pacman and, if any of them touches it, a life is lost. The objective is to eat as many dots as possible, each one of them representing a point (or more, depending on the level). When all the dots are collected, the level is completed and the player advances to the next one.
 
 Hardware components: 
