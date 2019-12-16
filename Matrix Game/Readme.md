@@ -32,11 +32,17 @@ In the “High score” option, the users can find the highest score and also th
 In order to get more information about the game, you can choose option “Info”, which contains:<br/>
 1. Game name
 2. Creator name<br/>
-3. GitHub Link<br/> and more
+3. GitHub Link and more<br/>
 
 
 **Game specifications:**<br/>
 Levels <br/>
+Level 1: <br/>
+-	4 fruits to get + the “golden” fruit<br/>
+-	ghost – slow speed<br/>
+-	Score = 4 * 1 = 4 + one possible life<br/>
+-	Maze complexity: easy<br/>
+<br/>
 Level 1: <br/>
 -	4 fruits to get + the “golden” fruit<br/>
 -	ghost – slow speed<br/>
