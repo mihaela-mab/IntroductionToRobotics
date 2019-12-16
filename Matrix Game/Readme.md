@@ -60,4 +60,4 @@ Level 3: <br/>
 At the end of the game (but only if the player wins the game) the final score is calculated as: score(level) + level * number of lives.<br/>
 <br/><br/>
 Here you can see the assembled hardware: <a href = "https://drive.google.com/open?id=1dNClD-1gMEV0E8NeDF6cGgas-fPp-nel">image</a>.
-
+You can find a visual representation at this <a href = "https://www.youtube.com/watch?v=1h6hkTsEOLA">link</a>.
