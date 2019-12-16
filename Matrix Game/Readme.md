@@ -1,9 +1,9 @@
-Pacman
+Pacman (simplified version)
 
-Game description: <br/>
+*Game description:* <br/>
 Pacman is a maze arcade game, which has its beginnings in 1980. Pacman, represented by a continuous single dot, navigates through the enclosed maze, filled with pac-dots (fruits) that need to be collected in order to gain points. At any time, one ghost (represented by a blinking dot) chases Pacman and, if the ghost touches it, a life is lost. The objective is to eat as many dots as possible, each one representing a point (or more, depending on the level). When all the dots are collected, the level is completed and the player advances to the next one.
 
-Hardware components: <br/>
+*Hardware components:* <br/>
 a. 1 * 8x8 LED matrix <br/>
 b. 1 * LCD <br/>
 c. 1 * Joystick<br/>
@@ -16,7 +16,7 @@ i. Connector cable<br/>
 j. 1 * Breadbord<br/>
 k. 2 * Mini Breadbords<br/> 
 
-How to play:<br/>
+*How to play:*<br/>
 In the settings option, you can choose the level you begin with. Note: if you start from a level without completing the previous ones, your score still begins with 0 points. Also, in the "Play" option, you can set the name of the player, which will be associated with the highest score. Default is “PLAYER” – 0 points.
 
 Entering the game is done by choosing “Play” option.<br/>
@@ -35,7 +35,7 @@ In order to get more information about the game, you can choose option “Info�
 3. GitHub Link<br/> and more
 
 
-Game specifications:<br/>
+*Game specifications:*<br/>
 Levels <br/>
 Level 1: <br/>
 -	4 fruits to get + the “golden” fruit<br/>
