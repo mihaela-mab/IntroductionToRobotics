@@ -57,5 +57,7 @@ Level 3: <br/>
 -	Score = Score (level 2) + 6 * 3 + one possible life<br/>
 -	Maze complexity: difficult<br/>
 <br/>
-At the end of the game (but only if the player wins the game) the final score is calculated as: score(level) + level * number of lives.
-
+At the end of the game (but only if the player wins the game) the final score is calculated as: score(level) + level * number of lives.<br/>
+<br/><br/>
+Here you can see the assembled hardware: <br/>
+![Hardware](https://drive.google.com/drive/my-drive?fbclid=IwAR3gEQ2IvG4aBKYa0qd4FzvVZ4TMgigB119qWp9L5KRX2IYO3JoSi27B4AA)
