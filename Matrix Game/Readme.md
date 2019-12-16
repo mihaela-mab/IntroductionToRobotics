@@ -43,18 +43,14 @@ Level 1: <br/>
 -	Score = 4 * 1 = 4 + one possible life<br/>
 -	Maze complexity: easy<br/>
 <br/>
-Level 1: <br/>
--	4 fruits to get + the “golden” fruit<br/>
--	ghost – slow speed<br/>
--	Score = 4 * 1 = 4 + one possible life<br/>
--	Maze complexity: easy<br/>
-<br/>
+
 Level 2: <br/>
 -	5 fruits to get + the “golden fruit”<br/>
 -	ghost – normal speed<br/>
 -	Score = Score (level 1) + 5 * 2 + one possible life<br/>
 -	Maze complexity: medium<br/>
 <br/>
+
 Level 3: <br/>
 -	6 fruits to get + the “golden fruit”<br/>
 -	ghost – fast speed<br/>
