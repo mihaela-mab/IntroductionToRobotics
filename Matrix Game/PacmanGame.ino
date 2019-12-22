@@ -84,7 +84,6 @@ struct Distance{
   int distance, index;
 } dist[4]; 
 
-
 const int MAX = 1000;
 
 bool takenFruit[15] = {0};
@@ -100,6 +99,11 @@ LedControl lc = LedControl(dinPin, clkPin, loadPin, noOfDrivers);
 
 LiquidCrystal lcd(rsPin, ePin, d4Pin, d5Pin, d6Pin, d7Pin);
 
+// Note: all the delays used at the beginning and at the end of functions "win", "gameOver", "play", "next", "highScore",
+// "more", "settings", "info", "level1", "level2" and "level 3" have the purpose to make a slower and visually more pleasant
+// transition from a state to another.
+
+// initialize arrow positions
 void initArrowPositions() {
   pos[0].x = 0;
   pos[0].y = 1;
@@ -217,16 +221,22 @@ void initFruitsPositions(int level) {
   }
 }
 
+// for a certain position arr, show the arrow; every function in which arrows appear have some positions allocated for them
+// for example, the mainMenu function has the positions from 0 to 2, the More function has the postions
+// 3 and 4 (here, StartPos = 3, endPos = 4) etc.
 void showArrow(int arr, int startPos, int endPos) {
+  //disable all the arrows
   for (int i = startPos; i <= endPos; i++) {
      lcd.setCursor(pos[i].x, pos[i].y);
      lcd.print(" ");
   }
-  
+
+  //enable the arrow at the position arr
   lcd.setCursor(pos[arr].x, pos[arr].y);
   lcd.print(">");
 }
 
+// read joystick's movements (only on X-axis) and display the arrow properly
 void arrowMoved(int startPos, int endPos) {
   xValue = analogRead(pinX);
   if(xValue < minThreshold && joyMoved == false) {
@@ -257,6 +267,7 @@ void arrowMoved(int startPos, int endPos) {
   showArrow(arrow, startPos, endPos);
 }
 
+// read button state
 void buttonState() {
   swState = digitalRead(pinSw);
   //Serial.println(swState);
@@ -284,6 +295,8 @@ void mainMenu() {
   arrowMoved(0, 2); 
   
   clearMatrix();
+  
+  // Pacman animation on the matrix
   matrix[2][1] = matrix[3][1] = matrix[4][1] = matrix[5][1] = matrix[1][2] = matrix[1][3] = matrix[1][4] = matrix[1][5] =
   matrix[6][2] = matrix[6][3] = matrix[6][4] = matrix[6][5] = matrix[5][4] = matrix[4][3] = matrix[3][4] = 
   matrix[2][5] = matrix[1][4] = matrix[1][4] = matrix[1][3] = matrix[2][3] = 1;
@@ -296,8 +309,9 @@ void mainMenu() {
   
   buttonState();
 
+  // if the player chooses an option and presses the button
   if (button == true) {
-    option = arrow + 1;
+    option = arrow + 1; // arrows start from 0 and options from 1, this is the reason why we have arrow + 1
   }
 }
 
@@ -318,7 +332,9 @@ void updateLives() {
   lcd.print(lives);
 }
 
+// a function that reads and displays on the matrix Pacman's movements
 void movePacman(int who) {
+  // on the X-axis
   xValue = analogRead(pinX);
   if(xValue < minThreshold && joyMoved == false) {
     if(pacman[who].x > 0) { 
@@ -357,6 +373,7 @@ void movePacman(int who) {
       joyMoved = false;
      }
 
+  // on the Y-axis
   yValue = analogRead(pinY);
   if(yValue < minThreshold && joyMoved == false) {
     if(pacman[who].y > 0) {
@@ -394,10 +411,12 @@ void movePacman(int who) {
     if(yValue >= minThreshold && yValue <= maxThreshold) {
      joyMoved = false;
     }
-    
- lc.setLed(0, prevPacman[who].x, prevPacman[who].y, false); 
- lc.setLed(0, pacman[who].x, pacman[who].y, true); //delay(200);
 
+ // display Pacman's position on the matrix, but first remove the previous one
+ lc.setLed(0, prevPacman[who].x, prevPacman[who].y, false); 
+ lc.setLed(0, pacman[who].x, pacman[who].y, true); 
+
+ // depending on the level, fruits will start and end from a certain position to another
  int startPos, endPos;
  if (level == 1) {
   startPos = 0; endPos = 4;
@@ -409,7 +428,8 @@ void movePacman(int who) {
   else {
     startPos = 9; endPos = 15;
   }
-  
+
+ // here, check if Pacman passed through a fruit and, if so, remove it from the matrix
  for (int i = startPos; i < endPos; i++) {
   if (prevPacman[who].x == fruits[i].x && prevPacman[who].y == fruits[i].y && !takenFruit[i]) {
     score += level;
@@ -420,6 +440,7 @@ void movePacman(int who) {
   }
  }
 
+  // here, check if Pacman passed through the golden fruit and, if so, remove it from the matrix and increase the number of lives
   if (prevPacman[who].x == gFruits[level - 1].x && prevPacman[who].y == gFruits[level - 1].y && !takenGoldenFruit[level - 1]) {
     lives++;
     updateLives();
@@ -428,6 +449,7 @@ void movePacman(int who) {
   
 }
 
+// change ghost's coordinates on the matrix
 void changeCoord(int index) {
   if (index == 0) {
     prevGhost[0].x = ghost[0].x;
@@ -453,6 +475,7 @@ void changeCoord(int index) {
       }
 }
 
+// check if the previous position is different from the current one, in order to make that movement possible
 bool checkPrevPosition (int who) {
   if(who == 0) {
     if (ghost[0].x - 1 == prevGhost[0].x && ghost[0].y == prevGhost[0].y) {
@@ -483,6 +506,7 @@ bool checkPrevPosition (int who) {
   }
 }
 
+// here, check if the ghost can move to a certain position: avoid a wall and the end of the maze
 bool possibleMovement(int who) {
   if (who == 0) {
     if (ghost[0].x > 0 && !matrix[ghost[0].x - 1][ghost[0].y] && !checkPrevPosition(0)) {
@@ -521,6 +545,7 @@ bool possibleMovement(int who) {
   }
 }
 
+// check if Pacman and the ghost are in the same position
 bool samePosition() {
   if (pacman[0].x == ghost[0].x && pacman[0].y == ghost[0].y) {
     return true;
@@ -530,6 +555,7 @@ bool samePosition() {
   }
 }
 
+// this function sorts the 4 possible distances from the ghost to Pacman, in order to select the minimum one
 void sortPositions(struct Distance dist[]) {
   for (int i = 0; i < 4; i++) {
     for (int j = i + 1; j < 4; j++) {
@@ -552,10 +578,10 @@ void moveGhost(int who) {
   while (!samePosition() && nOfFruitsTaken < level + 3) {
     movePacman(0);
 
-    dist[0].distance = abs(ghost[who].x - 1 - pacman[0].x);
-    dist[1].distance = abs(ghost[who].y - 1 - pacman[0].y);
-    dist[2].distance = abs(ghost[who].x + 1 - pacman[0].x);
-    dist[3].distance = abs(ghost[who].y + 1 - pacman[0].y);
+    dist[0].distance = abs(ghost[who].x - 1 - pacman[0].x); // south
+    dist[1].distance = abs(ghost[who].y - 1 - pacman[0].y); // west
+    dist[2].distance = abs(ghost[who].x + 1 - pacman[0].x); // north
+    dist[3].distance = abs(ghost[who].y + 1 - pacman[0].y); // east
     for(int i = 0; i < 4; i++) {
       dist[i].index = i;
     }
@@ -565,10 +591,11 @@ void moveGhost(int who) {
     for (int k = 0; k < 4; k++) {
       if(possibleMovement(dist[k].index)) {
         changeCoord(dist[k].index);
-        //Serial.println(dist[k].index);//delay(500);
         break;
       }
     }
+
+   // depending on the level, the ghost moves with a certain speed
    int delayPeriod;
    if (level == 1) {
     delayPeriod = 500;
@@ -595,7 +622,8 @@ void moveGhost(int who) {
     else {
       startPos = 9; endPos = 15;
     }
-   
+
+   // if the ghost passes through a fruit or the golden fruit, nothing should happen
    for(int i = startPos; i < endPos; i++) {
       if (prevGhost[who].x == fruits[i].x && prevGhost[who].y == fruits[i].y && !takenFruit[i]) {
          lc.setLed(0, prevGhost[who].x, prevGhost[who].y, true);
@@ -607,12 +635,14 @@ void moveGhost(int who) {
      lc.setLed(0, gFruits[level - 1].x, gFruits[level - 1].y, false);
    }
   }
-  
+
+  // if the ghost ate Pacman, decrease the number of lives
   if (nOfFruitsTaken < level + 3) {
     lives--;
     clearMatrix();
     delay(1000);
   }
+  // if Pacman collected all the fruits, move to the next level
   else {
     level++;
     if(level == 2) {
@@ -629,6 +659,7 @@ void moveGhost(int who) {
   }
 }
 
+// reset the collected fruits status, score and number of lives
 void resetGame() {
   for (int i = 0; i < 15; i++) {
     takenFruit[i] = 0;
@@ -646,7 +677,8 @@ void gameOver () {
 
   eeAddress = 0;
   EEPROM.get(eeAddress, hScore);
-  
+
+  // if the score is higher than the previous one, store it and also the player who achieved it
   if (score > hScore) {
     hScore = score;
     strcpy(hScorePlayer, playerName);
@@ -666,6 +698,7 @@ void gameOver () {
   }
   
   while(exitGameOver == false) {
+    // display a sad face on the matrix
     matrix[2][2] = matrix[2][5] = matrix[6][1] = 
     matrix[5][2] = matrix[5][3]= matrix[5][4] = matrix[5][5] = matrix[6][6] =  1;
     for(int row = 0; row < 8; row++) {
@@ -686,6 +719,7 @@ void gameOver () {
     }
 
     buttonState();
+    // if the player presses the button, he exits the game and goes to the main menu
     if(button == true) {
       option = 0;
       arrow = 0;
@@ -702,6 +736,7 @@ void gameOver () {
   
 }
 
+// this function is called only if the player completes all the levels
 void win() {
   lcd.clear(); delay(500);
   clearMatrix();
@@ -716,7 +751,8 @@ void win() {
 
     lcd.setCursor(11, 1);
     lcd.print(score);
-    
+
+    // display a smiley face on the matrix
     matrix[2][2] = matrix[2][4] = matrix[4][1] = matrix[5][2] = matrix[5][3] = matrix[4][5] = matrix[5][4] = 1;
     for(int row = 0; row < 8; row++) {
         for(int col = 0; col < 8; col++) {
@@ -725,6 +761,7 @@ void win() {
       }
     delay(2000);
     
+    // if the score is higher than the highest score, update the highest score and also the player's name
     eeAddress = 0;
     EEPROM.get(eeAddress, hScore);
     
@@ -751,7 +788,8 @@ void win() {
       lcd.print("Congratulations!");
       delay(2000);
     }
-    
+
+    // after 5 seconds, exit the function and return to the main menu
     delay(5000);
     option = 0;
     arrow = 0;
@@ -768,8 +806,15 @@ void win() {
   
 }
 
+void updateLevel() {
+  lcd.setCursor(6, 0);
+  lcd.print(level);
+}
+
 void level1() {
   nOfFruitsTaken = 0;
+  updateLevel();
+  
   while (lives > 0) {
     clearMatrix();
     updateLives();
@@ -797,12 +842,16 @@ void level1() {
     movePacman(0); 
     moveGhost(0);
   }
+
+  // if the number of lives is 0, the player loses the game
   gameOver();
 }
 
 void level2() {
   delay(1000);
   nOfFruitsTaken = 0;
+  updateLevel();
+  
   while (lives > 0) {
     clearMatrix();
     updateLives();
@@ -830,12 +879,15 @@ void level2() {
     movePacman(0); 
     moveGhost(0);
   }
+
+  // if the number of lives is 0, the player loses the game
   gameOver(); 
 }
 
 void level3() {
   delay(1000);
   nOfFruitsTaken = 0;
+  updateLevel();
   
   while (lives > 0) {
     clearMatrix();
@@ -866,13 +918,16 @@ void level3() {
     movePacman(0); 
     moveGhost(0);
   }
-  
+
+  // if the number of lives is 0, the player loses the game
   gameOver();   
 }
 
 void next() {
   lcd.clear(); delay(500);
   clearMatrix();
+
+  // display a "HI" message
   bool matrix[8][8] = {
   {0, 0, 0, 0, 0, 0, 0, 0},
   {0, 1, 0, 1, 0, 1, 0, 0},
@@ -930,6 +985,7 @@ void next() {
   
 }
 
+// a function to change player's name; the maximum length is 6; the player can choose a shorter name
 void changeName() {
   lcd.clear(); delay(500);
   button = false;
@@ -937,6 +993,7 @@ void changeName() {
     lcd.setCursor(5, 0);
     lcd.print(playerName);
 
+    // on the X-axis, choose which letter you want to modify
     xValue = analogRead(pinX);
     if(xValue < minThreshold && joyMoved == false) {
       if(letter > 0) {
@@ -967,6 +1024,7 @@ void changeName() {
      joyMoved = false;
     } 
 
+    // on the Y-axis, change the letter
     yValue = analogRead(pinY);
     if(yValue < minThreshold && joyMoved == false) {
       if (playerName[letter] != 'A') {
@@ -1249,7 +1307,7 @@ void loop() {
  exitGameOver = false;
  exitWin = false;
  exitChangeName = false;
-
+ 
  if (option == 0) {
   mainMenu(); 
  }
